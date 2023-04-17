@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pro.nocom.legacysmp.legacylib.LegacyLib;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -114,6 +115,14 @@ public class Main extends JavaPlugin {
         final MinecraftListener minecraftListener = new MinecraftListener(this);
 
         pluginManager.registerEvents(minecraftListener, this);
+
+        final LegacyLib legacyLib = LegacyLib.getInstance();
+
+        if (legacyLib == null) {
+            throw new IllegalStateException("Plugin loaded without LegacyLib being active!");
+        }
+
+        legacyLib.register(minecraftListener);
     }
 
     public boolean isNotActive() {

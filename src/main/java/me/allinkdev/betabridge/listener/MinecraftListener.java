@@ -14,41 +14,27 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pro.nocom.legacysmp.legacylib.listener.BroadcastListener;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @RequiredArgsConstructor
-public class MinecraftListener implements Listener {
+public class MinecraftListener implements Listener, BroadcastListener {
     private static final ExecutorService MESSAGE_PROCESSOR = Executors.newCachedThreadPool();
-    private static final String PLUGIN_NOT_ACTIVE = "Received %s while plugin isn't active!";
-    private static final String PLUGIN_CHANNEL_NULL = "Received a %s while plugin channel is null!";
     private static final String STATE_CHANGE_MESSAGE = Utility.bold("%s %s the game.");
     private static final Logger LOGGER = LoggerFactory.getLogger("BetaBridge Minecraft Listener");
     private final Main plugin;
 
-    private Optional<TextChannel> checkActiveAndGetChannel(final Event event) {
-        final Class<? extends Event> eventClass = event.getClass();
-        final String className = eventClass.getSimpleName();
-
+    private Optional<TextChannel> checkActiveAndGetChannel() {
         if (plugin.isNotActive()) {
-            final String message = String.format(PLUGIN_NOT_ACTIVE, className);
-            LOGGER.error(message);
-
             return Optional.empty();
         }
 
         final TextChannel channel = plugin.getChannel();
 
-        if (channel == null) {
-            final String message = String.format(PLUGIN_CHANNEL_NULL, className);
-            LOGGER.error(message);
-
-            return Optional.empty();
-        }
-
-        return Optional.of(channel);
+        return Optional.ofNullable(channel);
     }
 
     @EventHandler(priority = Event.Priority.Monitor)
@@ -57,7 +43,7 @@ public class MinecraftListener implements Listener {
     }
 
     private void processChat(final PlayerChatEvent event) {
-        final Optional<TextChannel> channelOptional = checkActiveAndGetChannel(event);
+        final Optional<TextChannel> channelOptional = checkActiveAndGetChannel();
 
         if (channelOptional.isEmpty()) {
             return;
@@ -74,7 +60,7 @@ public class MinecraftListener implements Listener {
     }
 
     private void processPlayerStateChange(final PlayerEvent event, final String verb) {
-        final Optional<TextChannel> channelOptional = checkActiveAndGetChannel(event);
+        final Optional<TextChannel> channelOptional = checkActiveAndGetChannel();
 
         if (channelOptional.isEmpty()) {
             return;
@@ -101,5 +87,24 @@ public class MinecraftListener implements Listener {
     @EventHandler(priority = Event.Priority.Monitor)
     public void onPlayerQuit(final PlayerQuitEvent event) {
         onPlayerStateChange(event, "left");
+    }
+
+    @Override
+    public void onMessage(String type, String message) {
+        if (!type.equals("death")) {
+            return;
+        }
+
+        final Optional<TextChannel> channelOptional = checkActiveAndGetChannel();
+
+        if (channelOptional.isEmpty()) {
+            return;
+        }
+
+        final TextChannel channel = channelOptional.get();
+        final String formattedMessage = Utility.format(message, true);
+        final String boldMessage = Utility.bold(formattedMessage);
+
+        Utility.sendMessage(boldMessage, channel, false);
     }
 }
