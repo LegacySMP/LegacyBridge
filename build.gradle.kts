@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.bukkit:asclepius:1.1.7")
+    compileOnly("org.bukkit:asclepius:1.1.8")
     implementation("net.dv8tion:JDA:5.0.0-beta.3") {
         exclude("opus-java")
     }
