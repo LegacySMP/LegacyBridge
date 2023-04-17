@@ -13,7 +13,7 @@ version = "1.0-SNAPSHOT"
 description = "Discord for your Beta server."
 
 repositories {
-    maven("https://maven.allink.esixtwo.one/snapshots")
+    maven("https://maven.allink.esixtwo.one/releases")
     mavenLocal()
     mavenCentral()
 }
@@ -23,7 +23,7 @@ dependencies {
     implementation("net.dv8tion:JDA:5.0.0-beta.3") {
         exclude("opus-java")
     }
-    implementation("pro.nocom.legacysmp:LegacyLib:1.1.0-SNAPSHOT")
+    implementation("pro.nocom.legacysmp:LegacyLib:1.1.0")
 }
 
 tasks {
