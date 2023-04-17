@@ -90,7 +90,7 @@ public class MinecraftListener implements Listener, BroadcastListener {
     }
 
     @Override
-    public void onMessage(String type, String message) {
+    public void onMessage(final String type, final String message) {
         if (!type.equals("death")) {
             return;
         }
