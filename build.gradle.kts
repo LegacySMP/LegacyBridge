@@ -13,6 +13,7 @@ version = "1.0-SNAPSHOT"
 description = "Discord for your Beta server."
 
 repositories {
+    maven("https://maven.allink.esixtwo.one/snapshots")
     mavenLocal()
     mavenCentral()
 }
@@ -23,6 +24,7 @@ dependencies {
     implementation("net.dv8tion:JDA:5.0.0-beta.3") {
         exclude("opus-java")
     }
+    implementation("pro.nocom.legacysmp:LegacyLib:1.1.0-SNAPSHOT")
 }
 
 tasks {
@@ -34,4 +36,5 @@ tasks {
 bukkit {
     main = "me.allinkdev.betabridge.Main"
     author = "Allink"
+    depend = listOf("LegacyLib")
 }
