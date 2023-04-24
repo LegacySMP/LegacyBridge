@@ -9,7 +9,7 @@ plugins {
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 group = "me.allinkdev"
-version = "1.2.1"
+version = "1.2.2"
 description = "Discord for your legacy server."
 
 repositories {
