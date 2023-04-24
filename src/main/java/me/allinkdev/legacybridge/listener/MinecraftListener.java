@@ -32,6 +32,10 @@ public class MinecraftListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerChat(final AsyncPlayerChatEvent event) {
+        PROCESSOR.execute(() -> executePlayerChat(event));
+    }
+
+    private void executePlayerChat(final AsyncPlayerChatEvent event) {
         final Optional<TextChannel> channelOptional = checkActiveAndGetChannel();
 
         if (channelOptional.isEmpty()) {
