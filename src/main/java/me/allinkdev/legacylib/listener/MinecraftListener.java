@@ -1,19 +1,14 @@
-package me.allinkdev.betabridge.listener;
+package me.allinkdev.legacylib.listener;
 
 import lombok.RequiredArgsConstructor;
-import me.allinkdev.betabridge.Main;
-import me.allinkdev.betabridge.Utility;
+import me.allinkdev.legacylib.Main;
+import me.allinkdev.legacylib.Utility;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.bukkit.event.player.*;
 import pro.nocom.legacysmp.legacylib.listener.BroadcastListener;
 
 import java.util.Optional;
@@ -22,9 +17,8 @@ import java.util.concurrent.Executors;
 
 @RequiredArgsConstructor
 public class MinecraftListener implements Listener, BroadcastListener {
-    private static final ExecutorService MESSAGE_PROCESSOR = Executors.newCachedThreadPool();
+    private static final ExecutorService PROCESSOR = Executors.newCachedThreadPool();
     private static final String STATE_CHANGE_MESSAGE = Utility.bold("%s %s the game.");
-    private static final Logger LOGGER = LoggerFactory.getLogger("BetaBridge Minecraft Listener");
     private final Main plugin;
 
     private Optional<TextChannel> checkActiveAndGetChannel() {
@@ -37,12 +31,8 @@ public class MinecraftListener implements Listener, BroadcastListener {
         return Optional.ofNullable(channel);
     }
 
-    @EventHandler(priority = Event.Priority.Monitor)
-    public void onPlayerChat(final PlayerChatEvent event) {
-        MESSAGE_PROCESSOR.submit(() -> this.processChat(event));
-    }
-
-    private void processChat(final PlayerChatEvent event) {
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerChat(final AsyncPlayerChatEvent event) {
         final Optional<TextChannel> channelOptional = checkActiveAndGetChannel();
 
         if (channelOptional.isEmpty()) {
@@ -76,15 +66,15 @@ public class MinecraftListener implements Listener, BroadcastListener {
     }
 
     public void onPlayerStateChange(final PlayerEvent event, final String verb) {
-        MESSAGE_PROCESSOR.submit(() -> processPlayerStateChange(event, verb));
+        PROCESSOR.submit(() -> processPlayerStateChange(event, verb));
     }
 
-    @EventHandler(priority = Event.Priority.Monitor)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(final PlayerJoinEvent event) {
         onPlayerStateChange(event, "joined");
     }
 
-    @EventHandler(priority = Event.Priority.Monitor)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(final PlayerQuitEvent event) {
         onPlayerStateChange(event, "left");
     }

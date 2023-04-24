@@ -1,16 +1,16 @@
-package me.allinkdev.betabridge;
+package me.allinkdev.legacylib;
 
 import lombok.Getter;
-import me.allinkdev.betabridge.listener.DiscordListener;
-import me.allinkdev.betabridge.listener.MinecraftListener;
+import me.allinkdev.legacylib.listener.DiscordListener;
+import me.allinkdev.legacylib.listener.MinecraftListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.config.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pro.nocom.legacysmp.legacylib.LegacyLib;
@@ -78,9 +78,19 @@ public class Main extends JavaPlugin {
             }
         }
 
-        final Configuration configuration = getConfiguration();
-        configuration.load();
-        configuration.save();
+        final FileConfiguration configuration = getConfig();
+
+        try {
+            configuration.load(configFile);
+        } catch (Exception e) {
+            LOGGER.error("Failed to load configuration!", e);
+        }
+
+        try {
+            configuration.save(configFile);
+        } catch (IOException e) {
+            LOGGER.error("Failed to save configuration!", e);
+        }
 
         final String token = configuration.getString("token");
         jda = JDABuilder.createLight(token)

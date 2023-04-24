@@ -10,7 +10,7 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 group = "me.allinkdev"
 version = "1.1.1"
-description = "Discord for your Beta server."
+description = "Discord for your legacy server."
 
 repositories {
     maven("https://maven.allink.esixtwo.one/releases")
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.bukkit:asclepius:1.1.8")
+    compileOnly("org.spigotmc:spigot-api:1.6.4-R2.1-SNAPSHOT")
     implementation("net.dv8tion:JDA:5.0.0-beta.8") {
         exclude("opus-java")
     }
@@ -33,7 +33,7 @@ tasks {
 }
 
 bukkit {
-    main = "me.allinkdev.betabridge.Main"
+    main = "me.allinkdev.legacylib.Main"
     author = "Allink"
     depend = listOf("LegacyLib")
 }

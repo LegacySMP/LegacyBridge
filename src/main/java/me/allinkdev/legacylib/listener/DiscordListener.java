@@ -1,20 +1,19 @@
-package me.allinkdev.betabridge.listener;
+package me.allinkdev.legacylib.listener;
 
 import lombok.RequiredArgsConstructor;
-import me.allinkdev.betabridge.Main;
-import me.allinkdev.betabridge.Utility;
-import me.allinkdev.betabridge.message.Component;
+import me.allinkdev.legacylib.Main;
+import me.allinkdev.legacylib.Utility;
+import me.allinkdev.legacylib.message.Component;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.minecraft.server.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
-import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -103,16 +102,15 @@ public class DiscordListener extends ListenerAdapter {
         Bukkit.broadcastMessage(text);
 
         final Server server = Bukkit.getServer();
-        final CraftServer craftServer = (CraftServer) server;
-        final MinecraftServer minecraftServer = craftServer.getServer();
+        final ConsoleCommandSender consoleCommandSender = server.getConsoleSender();
 
-        minecraftServer.console.sendMessage(text);
+        consoleCommandSender.sendMessage(text);
 
         for (int i = 1; i < lines.length; i++) {
             final String line = lines[i];
 
             Bukkit.broadcastMessage(line);
-            minecraftServer.console.sendMessage(line);
+            consoleCommandSender.sendMessage(line);
         }
     }
 }

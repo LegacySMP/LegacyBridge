@@ -1,2 +1,2 @@
-rootProject.name = "BetaBridge"
+rootProject.name = "LegacyBridge"
 
