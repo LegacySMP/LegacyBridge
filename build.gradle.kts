@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     compileOnly("org.bukkit:asclepius:1.1.8")
-    implementation("net.dv8tion:JDA:5.0.0-beta.3") {
+    implementation("net.dv8tion:JDA:5.0.0-beta.8") {
         exclude("opus-java")
     }
     implementation("pro.nocom.legacysmp:LegacyLib:1.1.0")
