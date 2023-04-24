@@ -1,22 +1,21 @@
-package me.allinkdev.legacylib.listener;
+package me.allinkdev.legacybridge.listener;
 
 import lombok.RequiredArgsConstructor;
-import me.allinkdev.legacylib.Main;
-import me.allinkdev.legacylib.Utility;
+import me.allinkdev.legacybridge.Main;
+import me.allinkdev.legacybridge.Utility;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
-import pro.nocom.legacysmp.legacylib.listener.BroadcastListener;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @RequiredArgsConstructor
-public class MinecraftListener implements Listener, BroadcastListener {
+public class MinecraftListener implements Listener {
     private static final ExecutorService PROCESSOR = Executors.newCachedThreadPool();
     private static final String STATE_CHANGE_MESSAGE = Utility.bold("%s %s the game.");
     private final Main plugin;
@@ -77,24 +76,5 @@ public class MinecraftListener implements Listener, BroadcastListener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(final PlayerQuitEvent event) {
         onPlayerStateChange(event, "left");
-    }
-
-    @Override
-    public void onMessage(final String type, final String message) {
-        if (!type.equals("death")) {
-            return;
-        }
-
-        final Optional<TextChannel> channelOptional = checkActiveAndGetChannel();
-
-        if (channelOptional.isEmpty()) {
-            return;
-        }
-
-        final TextChannel channel = channelOptional.get();
-        final String formattedMessage = Utility.format(message, true);
-        final String boldMessage = Utility.bold(formattedMessage);
-
-        Utility.sendMessage(boldMessage, channel, false);
     }
 }

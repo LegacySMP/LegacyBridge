@@ -1,4 +1,4 @@
-package me.allinkdev.legacylib.message;
+package me.allinkdev.legacybridge.message;
 
 import lombok.Getter;
 import lombok.Setter;

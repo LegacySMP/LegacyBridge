@@ -9,7 +9,7 @@ plugins {
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 group = "me.allinkdev"
-version = "1.2.0"
+version = "1.2.1"
 description = "Discord for your legacy server."
 
 repositories {
@@ -23,7 +23,6 @@ dependencies {
     implementation("net.dv8tion:JDA:5.0.0-beta.8") {
         exclude("opus-java")
     }
-    implementation("pro.nocom.legacysmp:LegacyLib:1.1.0")
 }
 
 tasks {
@@ -33,7 +32,6 @@ tasks {
 }
 
 bukkit {
-    main = "me.allinkdev.legacylib.Main"
+    main = "me.allinkdev.legacybridge.Main"
     author = "Allink"
-    depend = listOf("LegacyLib")
 }

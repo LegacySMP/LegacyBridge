@@ -1,4 +1,4 @@
-package me.allinkdev.legacylib;
+package me.allinkdev.legacybridge;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;

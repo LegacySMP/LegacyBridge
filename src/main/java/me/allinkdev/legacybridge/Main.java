@@ -1,8 +1,8 @@
-package me.allinkdev.legacylib;
+package me.allinkdev.legacybridge;
 
 import lombok.Getter;
-import me.allinkdev.legacylib.listener.DiscordListener;
-import me.allinkdev.legacylib.listener.MinecraftListener;
+import me.allinkdev.legacybridge.listener.DiscordListener;
+import me.allinkdev.legacybridge.listener.MinecraftListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -13,7 +13,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pro.nocom.legacysmp.legacylib.LegacyLib;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -125,14 +124,6 @@ public class Main extends JavaPlugin {
         final MinecraftListener minecraftListener = new MinecraftListener(this);
 
         pluginManager.registerEvents(minecraftListener, this);
-
-        final LegacyLib legacyLib = LegacyLib.getInstance();
-
-        if (legacyLib == null) {
-            throw new IllegalStateException("Plugin loaded without LegacyLib being active!");
-        }
-
-        legacyLib.register(minecraftListener);
     }
 
     public boolean isNotActive() {

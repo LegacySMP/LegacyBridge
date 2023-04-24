@@ -1,9 +1,9 @@
-package me.allinkdev.legacylib.listener;
+package me.allinkdev.legacybridge.listener;
 
 import lombok.RequiredArgsConstructor;
-import me.allinkdev.legacylib.Main;
-import me.allinkdev.legacylib.Utility;
-import me.allinkdev.legacylib.message.Component;
+import me.allinkdev.legacybridge.Main;
+import me.allinkdev.legacybridge.Utility;
+import me.allinkdev.legacybridge.message.Component;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
